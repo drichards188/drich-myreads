@@ -1,6 +1,6 @@
 import Book from "./Book";
 
-const Bookshelf = ({shelfName, collection}) => {
+const Bookshelf = ({shelfName, collection, apiFetch}) => {
 
     return (
         <div>
@@ -9,7 +9,7 @@ const Bookshelf = ({shelfName, collection}) => {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {
-                            collection.map((book) => (<Book bookData={book}/> ))
+                            collection.map((book) => (<Book bookData={book} apiFetch={apiFetch}/>))
                         }
                     </ol>
                 </div>
