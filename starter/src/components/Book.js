@@ -6,7 +6,10 @@ const Book = ({bookData, apiFetch}) => {
         update({id: bookData.id}, e.target.value)
             .then((result) => {
                 // alert(JSON.stringify(result));
-                apiFetch()
+                if (apiFetch) {
+                    apiFetch()
+                }
+
             });
     }
 

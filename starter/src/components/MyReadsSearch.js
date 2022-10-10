@@ -1,4 +1,34 @@
+import {useEffect, useState} from "react";
+import {getAll} from "../BooksAPI";
+import Book from "./Book";
+
 const MyReadsSearch = () => {
+
+    const [searchData, setSearchData] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
+
+    useEffect(async () => {
+        let resp = await getAll();
+
+        setSearchData(resp);
+        // alert(JSON.stringify(resp));
+    })
+
+    const handleSearchInput = (e) => {
+        let input = e.target.value.toLowerCase();
+        setSearchInput(input);
+        // alert(JSON.stringify(results));
+    }
+
+    const searchResults = searchData.filter((result) => {
+        if (searchInput === '') {
+            return result;
+        }
+        //return the item which contains the user input
+        else {
+            return result.title.toLowerCase().includes(searchInput)
+        }
+    });
 
     return (
         <div className="search-books">
@@ -13,12 +43,18 @@ const MyReadsSearch = () => {
                     <input
                         type="text"
                         placeholder="Search by title, author, or ISBN"
+                        value={searchInput}
+                        onChange={handleSearchInput}
                     />
                 </div>
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-
+                    {
+                        searchResults.map((result) => {
+                            return <Book bookData={result} />
+                        })
+                    }
                 </ol>
             </div>
         </div>
