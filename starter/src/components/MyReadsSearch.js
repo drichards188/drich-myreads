@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getAll} from "../BooksAPI";
+import {getAll, search} from "../BooksAPI";
 import Book from "./Book";
 
 const MyReadsSearch = () => {
@@ -8,31 +8,45 @@ const MyReadsSearch = () => {
     const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
-        getAllSearchResults();
+        // getAllSearchResults();
         // alert(JSON.stringify(resp));
     }, []);
 
+    //todo search needs to use api search query not filtering getAll
     const getAllSearchResults = async () => {
-        let resp = await getAll();
-        console.log(JSON.stringify(resp));
-        setSearchData(resp);
+        // alert('search input is ' + searchInput);
+        if (searchInput !== '') {
+            let resp = await search(searchInput)
+            return resp;
+        }
+
+        // console.log(JSON.stringify(resp));
+    }
+
+    const setSearchResults = async () => {
+        let results = await getAllSearchResults();
+        alert(JSON.stringify(results));
+        if (results !== undefined && !('error' in results)) {
+            setSearchData(results);
+        }
     }
 
     const handleSearchInput = (e) => {
         let input = e.target.value.toLowerCase();
         setSearchInput(input);
+        setSearchResults();
         // alert(JSON.stringify(results));
     }
 
-    const searchResults = searchData.filter((result) => {
-        if (searchInput === '') {
-            // return result;
-        }
-        //return the item which contains the user input
-        else {
-            return result.title.toLowerCase().includes(searchInput)
-        }
-    });
+    // const searchResults = searchData.filter((result) => {
+    //     if (searchInput === '') {
+    //         // return result;
+    //     }
+    //     //return the item which contains the user input
+    //     else {
+    //         return result.title.toLowerCase().includes(searchInput)
+    //     }
+    // });
 
     return (
         <div className="search-books">
@@ -55,7 +69,7 @@ const MyReadsSearch = () => {
             <div className="search-books-results">
                 <ol className="books-grid">
                     {
-                        searchResults.map((result) => {
+                        searchData.map((result) => {
                             return <Book key={result.id} bookData={result} />
                         })
                     }
