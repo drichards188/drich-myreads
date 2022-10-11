@@ -7,12 +7,20 @@ const MyReadsSearch = () => {
     const [searchData, setSearchData] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
-    useEffect(async () => {
-        let resp = await getAll();
+    const [readingCheck, setReadingCheck] = useState(false);
+    const [wantCheck, setWantCheck] = useState(false);
+    const [readCheck, setReadCheck] = useState(false);
 
-        setSearchData(resp);
+    useEffect(() => {
+
+        getAllSearchResults();
         // alert(JSON.stringify(resp));
-    })
+    },[]);
+
+    const getAllSearchResults = async () => {
+        let resp = await getAll();
+        setSearchData(resp);
+    }
 
     const handleSearchInput = (e) => {
         let input = e.target.value.toLowerCase();
@@ -25,12 +33,15 @@ const MyReadsSearch = () => {
             return result;
         }
         //return the item which contains the user input
+
         else {
-            return result.title.toLowerCase().includes(searchInput)
+            return result.title.toLowerCase().includes(searchInput) && result.shelf === 'currentlyReading'
         }
     });
 
-    //todo add search by category
+    const handleCheckboxChange = (checkState, stateSetter) => {
+        stateSetter(!checkState);
+    };
 
     return (
         <div className="search-books">
@@ -50,9 +61,9 @@ const MyReadsSearch = () => {
                     />
                 </div>
 
-                <label className="checkbox"><input type="checkbox" />Reading</label>
-                <label className="checkbox"><input type="checkbox"/>Want</label>
-                <label className="checkbox"><input type="checkbox"/>Read</label>
+                <label className="checkbox"><input type="checkbox" checked={readingCheck} onChange={()=> {handleCheckboxChange(readingCheck, setReadingCheck)}}/>Reading</label>
+                <label className="checkbox"><input type="checkbox" checked={wantCheck} onChange={()=> {handleCheckboxChange(wantCheck, setWantCheck)}}/>Want</label>
+                <label className="checkbox"><input type="checkbox" checked={readCheck} onChange={()=> {handleCheckboxChange(readCheck, setReadCheck)}}/>Read</label>
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">

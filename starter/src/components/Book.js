@@ -5,7 +5,7 @@ const Book = ({bookData, apiFetch}) => {
     const handleShelfChange = async (e) => {
         update({id: bookData.id}, e.target.value)
             .then((result) => {
-                // alert(JSON.stringify(result));
+                alert(JSON.stringify(result));
                 if (apiFetch) {
                     apiFetch()
                 }
