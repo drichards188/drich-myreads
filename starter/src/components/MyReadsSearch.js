@@ -30,6 +30,8 @@ const MyReadsSearch = () => {
         }
     });
 
+    //todo add search by category
+
     return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -47,12 +49,16 @@ const MyReadsSearch = () => {
                         onChange={handleSearchInput}
                     />
                 </div>
+
+                <label className="checkbox"><input type="checkbox" />Reading</label>
+                <label className="checkbox"><input type="checkbox"/>Want</label>
+                <label className="checkbox"><input type="checkbox"/>Read</label>
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
                     {
                         searchResults.map((result) => {
-                            return <Book bookData={result} />
+                            return <Book bookData={result}/>
                         })
                     }
                 </ol>

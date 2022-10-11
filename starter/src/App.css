@@ -11,6 +11,16 @@ body,
   background: white;
 }
 
+.checkbox {
+  width: 10%;
+  background-color: white;
+  display: inline-block;
+}
+
+.checkbox-input {
+  width: 10%;
+}
+
 /* main page */
 
 .list-books-title {
