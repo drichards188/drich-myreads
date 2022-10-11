@@ -1,13 +1,10 @@
-import {useCallback, useEffect, useState} from "react";
-import {getAll, update} from "../BooksAPI";
+import {useEffect, useState} from "react";
+import {getAll} from "../BooksAPI";
 import { useNavigate } from "react-router-dom";
 import Bookshelf from "./Bookshelf";
 
-//shelf names: currentlyReading | wantToRead | read
-
 const MyReads = () => {
     const navigate = useNavigate();
-    const [showSearchPage, setShowSearchpage] = useState(false);
 
     const [collection, setCollection] = useState({reading: [], want: [], read: []})
 
@@ -26,7 +23,6 @@ const MyReads = () => {
 
         let read = resp.filter((book) => (book.shelf === 'read'))
         setCollection({'reading': reading, 'want': want, 'read': read});
-        // alert('done fetching');
     }
 
     return (

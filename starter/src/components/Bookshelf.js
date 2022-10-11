@@ -9,7 +9,7 @@ const Bookshelf = ({shelfName, collection, apiFetch}) => {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {
-                            collection.map((book) => (<Book bookData={book} apiFetch={apiFetch}/>))
+                            collection.map((book) => (<Book key={book.id} bookData={book} apiFetch={apiFetch}/>))
                         }
                     </ol>
                 </div>

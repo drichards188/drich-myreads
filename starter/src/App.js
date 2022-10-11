@@ -1,6 +1,5 @@
 import "./App.css";
-import {useState} from "react";
-import {BrowserRouter, Route, Routes, Link} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import MyReads from "./components/MyReads";
 import MyReadsSearch from "./components/MyReadsSearch";
 import Header from "./components/Header";

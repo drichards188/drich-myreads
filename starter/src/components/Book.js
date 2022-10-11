@@ -5,7 +5,6 @@ const Book = ({bookData, apiFetch}) => {
     const handleShelfChange = async (e) => {
         update({id: bookData.id}, e.target.value)
             .then((result) => {
-                // alert(JSON.stringify(result));
                 if (apiFetch) {
                     apiFetch()
                 }
@@ -36,8 +35,8 @@ const Book = ({bookData, apiFetch}) => {
                 {thumbnail}
 
                 <div className="book-shelf-changer">
-                    <select onChange={handleShelfChange}>
-                        <option value="none" disabled selected>
+                    <select onChange={handleShelfChange} defaultValue={bookData.shelf}>
+                        <option value="none" disabled>
                             Move to...
                         </option>
                         <option value="currentlyReading">
