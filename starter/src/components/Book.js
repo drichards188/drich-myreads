@@ -13,19 +13,28 @@ const Book = ({bookData, apiFetch}) => {
             });
     }
 
+    let thumbnail;
+    if (bookData.imageLinks.thumbnail) {
+        thumbnail =
+            <div
+                className="book-cover"
+                style={{
+                    width: 128,
+                    height: 193,
+                    backgroundImage:
+                        `url(${bookData.imageLinks.thumbnail})`,
+                }}
+            ></div>
+    } else {
+        thumbnail = <p>No thumbnail</p>
+    }
+
     return (
         <div className="book">
-            {/*<button onClick={dataRefresh}>refresh</button>*/}
             <div className="book-top">
-                <div
-                    className="book-cover"
-                    style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage:
-                            `url(${bookData.imageLinks.thumbnail})`,
-                    }}
-                ></div>
+
+                {thumbnail}
+
                 <div className="book-shelf-changer">
                     <select onChange={handleShelfChange}>
                         <option value="none" disabled selected>
@@ -41,7 +50,7 @@ const Book = ({bookData, apiFetch}) => {
                 </div>
             </div>
             <div className="book-title">{bookData.title}</div>
-            <div className="book-authors">{bookData.authors[0]}</div>
+            <div className="book-authors">{bookData.authors}</div>
         </div>
     )
 }

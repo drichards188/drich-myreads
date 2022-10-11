@@ -7,18 +7,14 @@ const MyReadsSearch = () => {
     const [searchData, setSearchData] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
-    const [readingCheck, setReadingCheck] = useState(false);
-    const [wantCheck, setWantCheck] = useState(false);
-    const [readCheck, setReadCheck] = useState(false);
-
     useEffect(() => {
-
         getAllSearchResults();
         // alert(JSON.stringify(resp));
-    },[]);
+    }, []);
 
     const getAllSearchResults = async () => {
         let resp = await getAll();
+        console.log(JSON.stringify(resp));
         setSearchData(resp);
     }
 
@@ -30,18 +26,13 @@ const MyReadsSearch = () => {
 
     const searchResults = searchData.filter((result) => {
         if (searchInput === '') {
-            return result;
+            // return result;
         }
         //return the item which contains the user input
-
         else {
-            return result.title.toLowerCase().includes(searchInput) && result.shelf === 'currentlyReading'
+            return result.title.toLowerCase().includes(searchInput)
         }
     });
-
-    const handleCheckboxChange = (checkState, stateSetter) => {
-        stateSetter(!checkState);
-    };
 
     return (
         <div className="search-books">
@@ -60,16 +51,12 @@ const MyReadsSearch = () => {
                         onChange={handleSearchInput}
                     />
                 </div>
-
-                <label className="checkbox"><input type="checkbox" checked={readingCheck} onChange={()=> {handleCheckboxChange(readingCheck, setReadingCheck)}}/>Reading</label>
-                <label className="checkbox"><input type="checkbox" checked={wantCheck} onChange={()=> {handleCheckboxChange(wantCheck, setWantCheck)}}/>Want</label>
-                <label className="checkbox"><input type="checkbox" checked={readCheck} onChange={()=> {handleCheckboxChange(readCheck, setReadCheck)}}/>Read</label>
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
                     {
                         searchResults.map((result) => {
-                            return <Book bookData={result}/>
+                            return <Book key={result.id} bookData={result} />
                         })
                     }
                 </ol>
