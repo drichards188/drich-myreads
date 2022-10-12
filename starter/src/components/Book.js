@@ -1,19 +1,41 @@
-const Book = ({bookData}) => {
+import {update} from "../BooksAPI";
+
+const Book = ({bookData, apiFetch}) => {
+
+    const handleShelfChange = async (e) => {
+        update({id: bookData.id}, e.target.value)
+            .then((result) => {
+                if (apiFetch) {
+                    apiFetch()
+                }
+
+            });
+    }
+
+    let thumbnail;
+    if (bookData.imageLinks) {
+        thumbnail =
+            <div
+                className="book-cover"
+                style={{
+                    width: 128,
+                    height: 193,
+                    backgroundImage:
+                        `url(${bookData.imageLinks.thumbnail})`,
+                }}
+            ></div>
+    } else {
+        thumbnail = <p>No thumbnail</p>
+    }
 
     return (
         <div className="book">
             <div className="book-top">
-                <div
-                    className="book-cover"
-                    style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage:
-                            `url(${bookData.imageLinks.thumbnail})`,
-                    }}
-                ></div>
+
+                {thumbnail}
+
                 <div className="book-shelf-changer">
-                    <select>
+                    <select onChange={handleShelfChange} defaultValue={bookData.shelf}>
                         <option value="none" disabled>
                             Move to...
                         </option>
@@ -27,7 +49,7 @@ const Book = ({bookData}) => {
                 </div>
             </div>
             <div className="book-title">{bookData.title}</div>
-            <div className="book-authors">{bookData.authors[0]}</div>
+            <div className="book-authors">{bookData.authors}</div>
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import { Link, Router } from "react-router-dom";
+import {Button} from "@mui/material";
 
 function Header() {
     const linkStyle = {
@@ -11,11 +12,13 @@ function Header() {
                 <h1>MyReads</h1>
             </div>
             <nav>
+
                 <Link style={linkStyle} to={"/"}>
-                    Home
+                    <Button variant="contained">Home</Button>
                 </Link>
+
                 <Link style={linkStyle} to={"/search"}>
-                    Search
+                    <Button variant="contained">Search</Button>
                 </Link>
             </nav>
         </div>
