@@ -1,8 +1,11 @@
 import {useState} from "react";
 import {search} from "../BooksAPI";
 import Book from "./Book";
+import {useNavigate} from "react-router-dom";
 
 const MyReadsSearch = () => {
+    const navigate = useNavigate();
+
     const [searchData, setSearchData] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
@@ -15,7 +18,6 @@ const MyReadsSearch = () => {
 
     const setSearchResults = async () => {
         let results = await getAllSearchResults();
-        alert(JSON.stringify(results));
         if (results !== undefined && !('error' in results)) {
             setSearchData(results);
         } else {
@@ -34,7 +36,7 @@ const MyReadsSearch = () => {
             <div className="search-books-bar">
                 <a
                     className="close-search"
-                    // onClick={() => setShowSearchpage(!showSearchPage)}
+                    onClick={() => navigate("/")}
                 >
                     Close
                 </a>

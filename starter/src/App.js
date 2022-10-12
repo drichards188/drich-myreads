@@ -6,6 +6,8 @@ import Header from "./components/Header";
 
 function App() {
     return (
+        //todo place state here and use in both pages
+
         <BrowserRouter>
             <div className="app">
                 <Header />
