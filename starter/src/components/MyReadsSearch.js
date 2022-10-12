@@ -3,25 +3,25 @@ import {search} from "../BooksAPI";
 import Book from "./Book";
 import {useNavigate} from "react-router-dom";
 
-const MyReadsSearch = () => {
+const MyReadsSearch = ({collection, setCollection}) => {
     const navigate = useNavigate();
 
-    const [searchData, setSearchData] = useState([]);
+    // const [collection, setCollection] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
     const getAllSearchResults = async () => {
         if (searchInput !== '') {
-            let resp = await search(searchInput)
-            return resp;
+            return await search(searchInput);
         }
     }
 
     const setSearchResults = async () => {
         let results = await getAllSearchResults();
+
         if (results !== undefined && !('error' in results)) {
-            setSearchData(results);
+            setCollection({...collection, search: results});
         } else {
-            setSearchData([]);
+            setCollection({reading: [], want: [], read: [], search: []});
         }
     }
 
@@ -52,7 +52,7 @@ const MyReadsSearch = () => {
             <div className="search-books-results">
                 <ol className="books-grid">
                     {
-                        searchData.map((result) => {
+                        collection.search.map((result) => {
                             return <Book key={result.id} bookData={result}/>
                         })
                     }

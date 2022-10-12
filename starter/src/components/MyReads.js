@@ -1,17 +1,15 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getAll} from "../BooksAPI";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Bookshelf from "./Bookshelf";
 
-const MyReads = () => {
+const MyReads = ({collection, setCollection}) => {
     const navigate = useNavigate();
-
-    const [collection, setCollection] = useState({reading: [], want: [], read: []})
 
     //effect loads each shelf with correct books
     useEffect(() => {
         fetchMyAPI();
-    }, [])
+    });
 
     async function fetchMyAPI() {
 
@@ -22,7 +20,7 @@ const MyReads = () => {
         let want = resp.filter((book) => (book.shelf === 'wantToRead'));
 
         let read = resp.filter((book) => (book.shelf === 'read'))
-        setCollection({'reading': reading, 'want': want, 'read': read});
+        setCollection({'reading': reading, 'want': want, 'read': read, 'search': []});
     }
 
     return (
@@ -30,7 +28,8 @@ const MyReads = () => {
             <div className="list-books">
                 <div className="list-books-content">
                     <div>
-                        <Bookshelf shelfName={'Currently Reading'} collection={collection.reading} apiFetch={fetchMyAPI}/>
+                        <Bookshelf shelfName={'Currently Reading'} collection={collection.reading}
+                                   apiFetch={fetchMyAPI}/>
                         <Bookshelf shelfName={'Want to Read'} collection={collection.want} apiFetch={fetchMyAPI}/>
                         <Bookshelf shelfName={'Read'} collection={collection.read} apiFetch={fetchMyAPI}/>
                     </div>

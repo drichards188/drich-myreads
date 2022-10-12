@@ -3,17 +3,20 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import MyReads from "./components/MyReads";
 import MyReadsSearch from "./components/MyReadsSearch";
 import Header from "./components/Header";
+import {useState} from "react";
 
 function App() {
+    const [collection, setCollection] = useState({reading: [], want: [], read: [], search: []});
+
     return (
-        //todo place state here and use in both pages
 
         <BrowserRouter>
             <div className="app">
-                <Header />
+                <Header/>
                 <Routes>
-                    <Route exact path="/" element={<MyReads />}/>
-                    <Route exact path="/search" element={<MyReadsSearch/>}/>
+                    <Route exact path="/" element={<MyReads collection={collection} setCollection={setCollection}/>}/>
+                    <Route exact path="/search"
+                           element={<MyReadsSearch collection={collection} setCollection={setCollection}/>}/>
                     <Route path="*" element={<p>404 Ruh Roh</p>}/>
                 </Routes>
             </div>
