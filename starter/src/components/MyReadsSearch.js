@@ -1,12 +1,11 @@
 import {useState} from "react";
-import {search} from "../BooksAPI";
+import {getAll, search} from "../BooksAPI";
 import Book from "./Book";
 import {useNavigate} from "react-router-dom";
 
 const MyReadsSearch = ({collection, setCollection}) => {
     const navigate = useNavigate();
 
-    // const [collection, setCollection] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
     const getAllSearchResults = async () => {
@@ -15,14 +14,41 @@ const MyReadsSearch = ({collection, setCollection}) => {
         }
     }
 
-    const setSearchResults = async () => {
-        let results = await getAllSearchResults();
+    const getAllOwnedBooks = async () => {
+        return await getAll();
+    }
 
-        if (results !== undefined && !('error' in results)) {
-            setCollection({...collection, search: results});
+    const setSearchResults = async () => {
+        let searchResults = await getAllSearchResults();
+        let ownedBooks = await getAllOwnedBooks();
+
+        if (searchResults !== undefined && !('error' in searchResults)) {
+            let foundDuplicates = searchOnShelves(searchResults, ownedBooks);
+            setCollection({...collection, search: foundDuplicates});
         } else {
             setCollection({reading: [], want: [], read: [], search: []});
         }
+    }
+
+    const searchForDuplicate = (id, collection) => {
+        let foundDuplicate = collection.find((book) => book.id === id);
+        if (foundDuplicate !== undefined) {
+            return foundDuplicate;
+        }
+        return false;
+    }
+
+    const searchOnShelves = (searchResults, ownedBooks) => {
+        return searchResults.map((book) => {
+            let duplicateResult = searchForDuplicate(book.id, ownedBooks);
+            if (duplicateResult) {
+                book = {...book, shelf: duplicateResult.shelf};
+                return book;
+            } else {
+                book = {...book, shelf: 'none'};
+                return book;
+            }
+        });
     }
 
     const handleSearchInput = (e) => {
